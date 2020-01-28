@@ -35,8 +35,13 @@ class GUI():
         stt = SpeechToText('0cf90ceec03c44a6942e8ae5066457ee', 'francecentral')
 
         buttonSTT = tk.Button(root, text='Lecture assistée',
-                              command=partial(stt.speech_recognize_continuous_from_microphone2, text.get('1.0', 'end'), text))
+                              command=partial(stt.speech_recognize_continuous_from_microphone, text.get('1.0', 'end'), text))
         buttonSTT.place(relx=0.81, rely=0.4, relwidth=0.1, relheight=0.03)
+
+        button_stop = tk.Button(root, text='Stop lecture',
+                                command=partial(stt.stop_recognizing))
+        button_stop.place(relx=0.81, rely=0.44, relwidth=0.1, relheight=0.03)
+
         text.place(relx=0.2, rely=0.1, relwidth=0.6, relheight=0.8)
         root.mainloop()
 
