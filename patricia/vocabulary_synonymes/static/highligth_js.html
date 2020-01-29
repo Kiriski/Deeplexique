@@ -1,8 +1,7 @@
 <style>
-.highlight
-{
+  .highlight {
     background-color: yellow;
-}
+  }
 </style>
 
 <button onclick="highlight('fox')">Highlight</button>
@@ -12,19 +11,23 @@
 </div>
 
 <script>
-function highlight(text) {
+  function highlight(text) {
     var inputText = document.getElementById("inputText");
     var innerHTML = inputText.innerHTML;
     var index = innerHTML.indexOf(text);
-    if (index >= 0) { 
-     innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-     inputText.innerHTML = innerHTML;
+    if (index >= 0) {
+      innerHTML = innerHTML.substring(0, index) + "<span class='highlight'>" + innerHTML.substring(index, index + text.length) + "</span>" + innerHTML.substring(index + text.length);
+      inputText.innerHTML = innerHTML;
     }
   }
-</script>
 
-[mot for mot in mots if mot in dic_synonymes]
+  var texte = "bonjour je m'appele patricia\ntest";
+  const mots = texte.split(/'| |\n/);
 
-<script>
-var test = [for (mot of mots) if (mot in dic_synonymes) mot];
+
+  console.log(texte);
+  console.log(mots)
+
+
+
 </script>
