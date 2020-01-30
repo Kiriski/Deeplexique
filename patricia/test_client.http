@@ -6,7 +6,7 @@ Content-Type: application/json
 ["femme", "homme","été", "cheveux"]
 
 
-###
+### 
 
 POST http://localhost:5000/
 Content-Type: application/json
