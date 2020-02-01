@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+    
+    <table style="margin: 14px">
+        <tr>
+            <td style=background-color:blue>
+                <a class="nav-item nav-link" href="/stt"><img id="baobab" src="{{ url_for('static', filename='img/robot.PNG') }}" width="200px" height="200px"></a>
+            </td>
+            <td style=background-color:Lightgreen>
+                <p style="text-align: center; font-size: 25px">
+                    <B>Synthétiseur</B><br>
+                </p>
+                <p style="text-align: center; font-size: 20px; padding: 10px">
+                    Lis ton texte avec une voix sympathique féminine ou masculine. A toi de choisir…
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table style="margin: 14px">
+        <tr>
+            <td style=background-color:Lightgreen>
+                <p style="text-align: center; font-size: 25px">
+                    <strong>Lecture assistée</strong></br>
+                </p>
+                <p style="text-align: center; font-size: 20px; padding: 10px">
+                    T’aide à suivre la lecture avec des couleurs, comme si tu chantais au karaoké !
+                </p>
+            </td>
+            <td style=background-color:blue>
+                <a class="nav-item nav-link" href="/stt">
+                    <img src="{{ url_for('static', filename='img/reading.PNG') }}" width="200px" height="200px">
+                </a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table style="margin: 14px">
+        <tr>
+            <div class="box overlay red">
+                <td style=background-color:blue>
+                    <a class="nav-item nav-link" href="/stt"><img src="{{ url_for('static', filename='img/crayon.PNG') }}" width="200px" height="200px"></a>
+                </td>
+            </div>
+            <td style=background-color:Lightgreen>
+                <p style="text-align: center; font-size: 25px">
+                <B>Ecriture assistée</B></br>
+                </p>
+                <p style="text-align: center; font-size: 20px; padding: 10px">
+                    Ecrit à ta place quand tu lui dictes, si tu ne sais pas écrire certains mots ne t’inquiète pas, il saura le faire à ta place…
+                </p>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table style="margin: 14px">
+        <tr>
+            <td style=background-color:Lightgreen>
+                <p style="text-align: center; font-size: 25px">
+                <B>Vocabulaire</B></br>
+                </p>
+                <p style="text-align: center; font-size: 20px; padding: 10px">
+                    Te propose une liste de vocabulaire et des synonymes pour faire des productions écrites avec un vocabulaire enrichi.
+                </p>
+            </td>
+            <td style=background-color:blue>
+                <a class="nav-item nav-link" href="/vocabulary"><img src="{{ url_for('static', filename='img/vocabulary.PNG') }}" width="200px" height="200px"></a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table style="margin: 14px">
+        <tr>
+            <td style=background-color:blue>
+                <a class="nav-item nav-link" href="/stt"><img src="{{ url_for('static', filename='img/simplification.PNG') }}" width="200px" height="200px"></a>
+            </td>
+            <td style=background-color:Lightgreen>
+                <p style="text-align: center; font-size: 25px">
+                <B>Simplification de texte</B></br>
+                </p>
+                <p style="text-align: center; font-size: 20px; padding: 10px">
+                    Te fait un résumé très simplifié de ton texte, si tu n’as pas le temps ce n’est pas grave, tu peux lire ou écouter une version plus accessible.
+                </p>
+            </td>
+        </tr>
+    </table>
+    
+{% endblock content %}
