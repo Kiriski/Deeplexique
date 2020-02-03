@@ -37,12 +37,12 @@ def read_assist():
 ## API vocabulaire
 
 #Stops words
-with open('./data/stopwords-fr.json') as f:
+with open('./data/stopwords-fr.json', encoding='utf-8') as f:
     text_file = f.read()
     StopWord = json.loads(text_file)
 
 #synonymes dictionary
-with open("./data/dic_synonymes.json") as f:
+with open("./data/dic_synonymes.json", encoding='utf-8') as f:
     data = f.read()
     dic_synonymes = json.loads(data)
 
