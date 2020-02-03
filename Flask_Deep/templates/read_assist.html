@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+  .assist{
+    font-size: 24px;
+  }
+
+  .done {
+    background-color: rgb(119, 255, 131);
+    /* text-decoration-line: underline; */
+  }
+
+  .highlight {
+    background-color: rgb(252, 252, 109);
+    font-weight: bold;
+    /* text-decoration-line: underline; */
+  }
+</style>
+{% raw %}
+<div id="app_vocabulaire">
+  <textarea v-model="text" cols="70"> </textarea>
+  <br>
+  <button @click="start_stop_recogniser">{{button_text}}</button>
+  <!-- <br>
+  {{ text_recognized }}<br>
+  {{ text_assist }}<br>
+  {{ position }} -->
+  <br>
+  <br>
+  <div class="assist">
+    <span v-for="(mot, index) in text_assist_display" :class='{  highlight: index == position, done : index < position }'>
+      {{mot}}
+    </span>
+  </div>
+</br>
+  <h1 v-if="succes">Bravo !!!</h1>
+
+</div>
+{% endraw %}
+
+<script>
+    //https://francecentral.api.cognitive.microsoft.com/sts/v1.0/issueToken
+</script>
+<!-- </authorizationfunction> -->
+
+<!-- <quickstartcode> -->
+<!-- Speech SDK USAGE -->
+<script>
+  // status fields and start button in UI
+
+  let speechConfig = SpeechSDK.SpeechConfig.fromSubscription("0cf90ceec03c44a6942e8ae5066457ee", "francecentral");
+  speechConfig.speechRecognitionLanguage = "fr-FR";
+  let audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+
+  let recognizer;
+
+  function replaceDiacritics(s) {
+    var s;
+
+    var diacritics = [
+      /[\300-\306]/g, /[\340-\346]/g,  // A, a
+      /[\310-\313]/g, /[\350-\353]/g,  // E, e
+      /[\314-\317]/g, /[\354-\357]/g,  // I, i
+      /[\322-\330]/g, /[\362-\370]/g,  // O, o
+      /[\331-\334]/g, /[\371-\374]/g,  // U, u
+      /[\321]/g, /[\361]/g, // N, n
+      /[\307]/g, /[\347]/g, // C, c
+    ];
+
+    var chars = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
+
+    for (var i = 0; i < diacritics.length; i++) {
+      s = s.replace(diacritics[i], chars[i]);
+    }
+
+    return s;
+  }
+
+  new Vue({
+    el: '#app_vocabulaire',
+    data: {
+      text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
+      text_assist: [],
+      text_assist_display :[],
+      text_recognized: [],
+      position: 0,
+      succes:false,
+      active: false,
+      button_text: "start"
+    },
+    methods: {
+      start_stop_recogniser() {
+        if (!this.active) {
+          this.start_recogniser();
+        } else {
+          this.stop_recogniser();
+        }
+        this.active = !this.active;
+        this.button_text = this.active ? "stop" : "start";
+      },
+      start_recogniser() {
+        this.position = 0;
+        this.succes = false;
+        this.text_assist_display = this.text.split(" ");
+        console.log(this.text_assist_display);
+        this.text_assist = replaceDiacritics(this.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
+        console.log(this.text_assist);
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        recognizer.recognized = (s, e) => {
+          this.text_recognized =replaceDiacritics(e.result.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
+
+          for (let i = 0; i < this.text_recognized.length; i++) {
+            const txt_expected = this.text_assist[this.position];
+            const txt_expected_without_last_letter = txt_expected.substr(0, txt_expected.length - 1);
+            const txt_recognized = this.text_recognized[i];
+            const txt_recognized_limited = txt_recognized.substr(0, txt_expected.length - 1);
+            console.log(`${txt_expected} == ${txt_recognized} ? // ${txt_expected_without_last_letter} == ${txt_recognized_limited} ?`);
+
+            if (txt_expected === txt_recognized || txt_expected_without_last_letter === txt_recognized_limited) {
+              this.position++;
+              this.succes=this.position==this.text_assist.length;
+              if(this.succes){
+                  this.start_stop_recogniser();
+              }
+            } else {
+              break;
+            }
+          }
+        };
+        recognizer.startContinuousRecognitionAsync()
+      },
+      stop_recogniser() {
+        const stop_function = () => {
+          recognizer.close();
+        }
+        recognizer.stopContinuousRecognitionAsync(stop_function, stop_function);
+      }
+    }
+  })
+</script>
+<!-- </quickstartcode> -->
+{% endblock content %}

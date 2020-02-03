@@ -42,7 +42,7 @@ ul {
 }
   
 .bg-steel {
-  background-color: #green;
+  /* background-color: green; */
 }
   
 .site-header .navbar-nav .nav-link {
@@ -82,6 +82,9 @@ ul {
 
 .row {
   justify-content: center;
+  min-height: 500px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .container {
@@ -119,7 +122,6 @@ img:hover {
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
-
 
 
 

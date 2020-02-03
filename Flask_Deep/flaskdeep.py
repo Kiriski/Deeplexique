@@ -1,4 +1,11 @@
-from flask import Flask, render_template, url_for
+## import for vocabulary
+import pandas as pd
+import numpy as np
+import json
+from sklearn.feature_extraction.text import CountVectorizer
+## end import
+
+from flask import Flask, render_template, url_for, escape, request, jsonify
 app = Flask(__name__)
 
 @app.route('/')
@@ -14,9 +21,62 @@ def about():
 def dyslexie():
     return render_template('dyslexie.html', title='Dyslexie')
 
-@app.route('/stt')
-def azure_ecriture():
-    return render_template('azure_sample.html', title='Ecriture Assistée')
+@app.route('/vocabulary')
+def vocabulary():
+    return render_template('vocabulary.html', title='Vocabulary')
+
+@app.route('/write_assist')
+def write_assist():
+    return render_template('write_assist.html', title='Ecriture Assistée')
+
+@app.route('/read_assist')
+def read_assist():
+    return render_template('read_assist.html', title='Lecture Assistée')
+
+
+## API vocabulaire
+
+#Stops words
+with open('./data/stopwords-fr.json') as f:
+    text_file = f.read()
+    StopWord = json.loads(text_file)
+
+#synonymes dictionary
+with open("./data/dic_synonymes.json") as f:
+    data = f.read()
+    dic_synonymes = json.loads(data)
+
+#get vocabulary and synonymes
+def get_vocabulary_synonymes(text):
+    #si le texte est vide, renvoie un dic vide
+    if text == "":
+        return {}
+    #spliter le texte en phrases
+    text = text.replace("\n", "").split(".")
+    
+    #compter les mots par occurence et enlever les stopwords
+    vectorizer = CountVectorizer(stop_words=StopWord)
+    X = vectorizer.fit_transform(text)
+
+    frequence_mots = X.toarray()
+    
+    compte = np.sum(frequence_mots, axis=0)
+    
+    compte = list(compte)
+    mots = vectorizer.get_feature_names()
+
+    mots_occurence = pd.DataFrame(data={'compte' : compte, 'mots': mots})
+    mots_occurence = mots_occurence.sort_values(by = 'compte', ascending=False)
+    mots_occurence.iloc[:30]
+    
+    return {mot:dic_synonymes[mot] for mot in mots if mot in dic_synonymes}
+
+
+@app.route('/api/syno', methods=['POST'])
+def hello():
+    text = request.get_json()
+    mot_vers_synonymes = get_vocabulary_synonymes(text)
+    return jsonify(mot_vers_synonymes)
 
 
 if __name__=="__main__":

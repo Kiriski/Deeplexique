@@ -1,0 +1,29 @@
+
+
+/* vocabulary page */
+
+
+#app_vocabulaire textarea {
+    font-size: 16px;
+  }
+  
+  #app_vocabulaire .mot {
+    font-weight: 600;
+    font-size: large;
+  }
+  
+  #app_vocabulaire .highlight {
+    background-color: rgb(252, 252, 109); 
+    /* text-decoration-line: underline; */
+  }
+  
+  #app_vocabulaire .synonymes {
+    color: blue;
+  }
+  
+  #app_vocabulaire .result{
+    font-size: large;
+    font-weight: 700;
+  }
+  
+  
