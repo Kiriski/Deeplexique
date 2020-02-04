@@ -78,7 +78,7 @@
 
                         this.mot_synonyme = this.mots.map(m => [m, vocabulaires_object[m.replace(',', '').replace("d'", '')]])
                         
-                        this.erreur = this.vocabulaires_list.length == 0 ? "text vide ou sans mot détecté" : "";
+                        this.erreur = this.vocabulaires_list.length == 0 ? "Texte vide ou sans mot détecté" : "";
                     }
                     http.send(JSON.stringify(this.text));
                 }

@@ -51,19 +51,49 @@
     margin-left: 16px;
   }
 
+  #vocabulary {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  h3 {
+    margin-right: 20px;
+    padding-top: 50px;
+  }
+
+  #boutons {
+    display: block;
+    margin: auto;
+    text-align: center;
+    outline-style:none;
+  }
+
+  #bouton {
+    outline-style:none;
+  }
+
 </style>
 {% raw %}
+
+<div id="vocabulary">
+  <img src="static/img/reading.png" style="width: 100px; margin-right: 20px">
+   <h3 style="text-align: center; padding-bottom: 20px">Lecture assistée</h3>
+</div>
+
 <div id="app_vocabulaire">
   <div id="test">
-    <div id="test2">
+    <!--<div id="test2">
       <img src="static/img/reading.png" style="width: 100px; margin-right: 20px">
       <p>Lecture assistée</p>
-    </div>
-    <textarea v-model="text" cols="70"> </textarea>
+    </div> -->
+    <textarea v-model="text" cols="70" rows="5"> </textarea>
   </div>
   <br>
   <div></div>
-  <button @click="start_stop_recogniser">{{button_text}}</button>
+  <div id="boutons">
+    <button @click="start_stop_recogniser" id="bouton">{{button_text}}</button>
+  </div>
   <!-- <br>
   {{ text_recognized }}<br>
   {{ text_assist }}<br>
@@ -129,7 +159,7 @@
       position: 0,
       succes:false,
       active: false,
-      button_text: "start"
+      button_text: "Commencer la lecture"
     },
     methods: {
       start_stop_recogniser() {
@@ -139,7 +169,7 @@
           this.stop_recogniser();
         }
         this.active = !this.active;
-        this.button_text = this.active ? "stop" : "start";
+        this.button_text = this.active ? "stop" : "Commencer la lecture";
       },
       start_recogniser() {
         this.position = 0;

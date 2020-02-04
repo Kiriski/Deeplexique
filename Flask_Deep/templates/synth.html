@@ -3,7 +3,9 @@
 
 <script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 <style>
+
   .assist{
     font-size: 24px;
   }
@@ -18,21 +20,89 @@
     font-weight: bold;
     /* text-decoration-line: underline; */
   }
+
+  button{
+    /* display: block; 
+    margin: auto; */
+    outline-style:none;
+    background-color: #5CF992;
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+  }
+
+  button:hover {
+    background-color: green;
+  }
+
+  #vocabulary {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  h3 {
+    margin-right: 20px;
+    padding-top: 50px;
+  }
+
+  #boutons {
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    outline-style:none;
+  }
+
+  #lecture, #audio {
+    outline-style: none;
+  }
+
+  #select-voice {
+    text-align: center;
+    padding: 20px;
+  }
 </style>
 {% raw %}
+
+<div id="vocabulary">
+        <img src="static/img/robot.png" style="width: 100px; margin-right: 20px">
+        <h3 style="text-align: center; padding-bottom: 20px">Synthétiseur</h3>
+</div>
+
 <div id="app_vocabulaire">
-    <textarea class="form-control" id="text-to-translate" rows="5" cols=70></textarea>
+    <textarea class="form-control" id="text-to-translate" rows="5" v-model="text" cols=70></textarea>
     <br>
-    <br>
-    <button @click="speechtt">Leture</button>
-        <!-- <button type="submit" class="btn btn-primary mb-2" id="text-to-speech">Prononcer</button> -->
-        <br>
-        <br>
-        <div id="audio-playback">
-          <audio id="audio" controls>
-            <source id="audio-source" type="audio/mpeg" />
-          </audio>
-        </div>
+    <form id="select-voice">
+      <h4>Choisis ta voix</h4>
+      <input type="radio" id="homme" name="voice" value="(fr-FR, Paul, Apollo)" checked>
+      <label for="homme"><img src="static/img/homme2.png" style="width: 100px; margin-right: 20px"></label>
+      <input type="radio" id="femme" name="voice" value="(fr-FR, Julie, Apollo)">
+      <label for="femme"><img src="static/img/femme2.png" style="width: 100px; margin-right: 20px"></label>
+    </form>
+
+    <div id="boutons">
+      <button @click="speechtt" id="lecture">Lecture</button>
+          <!-- <button type="submit" class="btn btn-primary mb-2" id="text-to-speech">Prononcer</button> -->
+          <br>
+          <br>
+          <div id="audio-playback">
+            <audio id="audio" controls>
+              <source id="audio-source" type="audio/mpeg" />
+            </audio>
+          </div>
+    </div>
     <!-- <form action="{{ url_for('submit') }}" method="post">
         <textarea name="text" cols="70"></textarea>
         <input type="submit">
@@ -51,8 +121,7 @@
 <script>
     new Vue({
         el: '#app_vocabulaire',
-        data: {
-            // text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
+        data: { text: "Bonjour, je m'appelle Pierre. J'aime le nucléaire",
             // vocabulaires: {},
             // erreur: "",
             // mot_synonyme: []
@@ -65,9 +134,10 @@
         methods: {
           speechtt() {
             var ttsInput = document.getElementById("text-to-translate").value;
-            // var ttsVoice = document.getElementById("select-voice").value;
-            // var ttsRequest = { 'text': ttsInput, 'voice': ttsVoice }
-            var ttsRequest = { 'text': ttsInput}
+            var ttsVoices = document.getElementById("select-voice");
+            var ttsVoice = ttsVoices.elements['voice'].value;
+            console.log(ttsVoice);
+            var ttsRequest = { 'text': ttsInput, 'voice': ttsVoice }
 
             var xhr = new XMLHttpRequest();
             xhr.open('post', '/text-to-speech', true);

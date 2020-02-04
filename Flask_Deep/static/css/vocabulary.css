@@ -27,6 +27,7 @@
   }
 
 button {
+    outline-style:none;
     border: 0;
     line-height: 2.5;
     padding: 0 20px;

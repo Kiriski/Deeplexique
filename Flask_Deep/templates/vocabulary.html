@@ -18,6 +18,14 @@
             margin-right: 20px;
             padding-top: 50px;
         }
+
+        #boutons {
+            display: block;
+            margin: auto;
+            text-align: center;
+            margin-top: 30px;
+            outline-style:none;
+        }
     </style>
 
     <div id="vocabulary">
@@ -25,10 +33,10 @@
         <h3 style="text-align: center; padding-bottom: 20px">Vocabulaire</h3>
     </div>
     <div id="app_vocabulaire">
-        <textarea v-model="text" cols="70">
+        <textarea v-model="text" cols="70" rows="5">
 
         </textarea>
-        <button @click="cherche_vocabulaire">Chercher vocabulaire</button>
+        <button @click="cherche_vocabulaire" id="boutons">Chercher vocabulaire</button>
         {{erreur}}
 
     </br></br>
@@ -75,7 +83,7 @@
 
                     this.mot_synonyme = this.mots.map(m => [m, vocabulaires_object[m.replace(',', '').replace("d'", '')]])
                     
-                    this.erreur = this.vocabulaires_list.length == 0 ? "text vide ou sans mot détecté" : "";
+                    this.erreur = this.vocabulaires_list.length == 0 ? "Texte vide ou texte sans mot détecté" : "";
                 }
                 http.send(JSON.stringify(this.text));
             }

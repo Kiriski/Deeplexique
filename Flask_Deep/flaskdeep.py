@@ -38,12 +38,17 @@ def read_assist():
 def synth():
     return render_template('synth.html', title='Synthétiseur')
 
+@app.route('/simplification')
+def simpl():
+    return render_template('simplification.html', title='Simplification')
+
 @app.route('/text-to-speech', methods=['POST'])
 def text_to_speech():
     print("here")
     data = request.get_json()
     text_input = data['text']
-    tts = TextToSpeech(text_input)
+    voice_font = data['voice']
+    tts = TextToSpeech(text_input,voice_font)
     tts.get_token()
     audio_response = tts.save_audio()
     return audio_response

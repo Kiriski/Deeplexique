@@ -2,10 +2,11 @@ import os, requests, time
 from xml.etree import ElementTree
 
 class TextToSpeech(object):
-    def __init__(self, input_text):
+    def __init__(self, input_text, voice_font):
         subscription_key = '0cf90ceec03c44a6942e8ae5066457ee'
         self.subscription_key = subscription_key
         self.input_text = input_text
+        self.voice_font = voice_font
         self.timestr = time.strftime('%Y%m%d-%H%M')
         self.access_token = None
         print("Texttospeech class")
@@ -35,7 +36,7 @@ class TextToSpeech(object):
         xml_body.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-us')
         voice = ElementTree.SubElement(xml_body, 'voice')
         voice.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-US')
-        voice.set('name', 'Microsoft Server Speech Text to Speech Voice (fr-FR, Julie, Apollo)')
+        voice.set('name', 'Microsoft Server Speech Text to Speech Voice {}'.format(self.voice_font))
         voice.text = self.input_text
         # The body must be encoded as UTF-8 to handle non-ascii characters.
         body = ElementTree.tostring(xml_body, encoding="utf-8")
