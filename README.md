@@ -3,11 +3,11 @@
 
 # Deep lexique
 
-Démo : <a href="https://deeplexique.azurewebsites.net">link text</a>
+Démo : <a href="https://deeplexique.azurewebsites.net">https://deeplexique.azurewebsites.net</a>
 
 Ce projet est pour venir en aide aux enfants et jeunes adolescents ayant un trouble de l'apprentissage constaté (Dyslexie).
 
-###La dyslexie, c’est quoi?
+### La dyslexie, c’est quoi?
 
 C’est un trouble de l’apprentissage fréquemment retrouvé chez les enfants. Il se présente comme un dysfonctionnement cérébral ou psychique et ses répercussions sont souvent retrouvées dans le langage et l’écriture (difficulté à acquérir la lecture, l’écriture et orthographe).
 
@@ -20,7 +20,7 @@ les personnes autistes
 les adultes illétrés
 mais aussi pour l'apprentissage des langues étrangères.
 
-###Quelles fonctionnalités vous trouverez ?
+## Quelles fonctionnalités vous trouverez ?
 
 Synthétiseur : Lis le texte pour l'utilisateur avec choix de voix.
 Lecture assistée : Aide à suivre la lecture avec un coloriage, comme au karaoké !
@@ -28,7 +28,7 @@ Ecriture assistée : Ecrit tout ce que tu dis...
 Vocabulaire - Synonymes : Propose un vocabulaire et des synonymes à partir d"un texte.
 Simplification de texte : Fait une reformulation du texte pour faciliter la compréhension.
 
-###Comment lancer le serveur ?
+### Comment lancer le serveur ?
 
 
 ```
