@@ -4,6 +4,30 @@
 <script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <style>
+
+  button{
+    background-color: #5CF992;
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+  }
+
+  button:hover {
+    background-color: green;
+  }
+
   .assist{
     font-size: 24px;
   }
@@ -18,11 +42,27 @@
     font-weight: bold;
     /* text-decoration-line: underline; */
   }
+
+  #test{
+    display: flex;
+  }
+
+  p {
+    margin-left: 16px;
+  }
+
 </style>
 {% raw %}
 <div id="app_vocabulaire">
-  <textarea v-model="text" cols="70"> </textarea>
+  <div id="test">
+    <div id="test2">
+      <img src="static/img/reading.png" style="width: 100px; margin-right: 20px">
+      <p>Lecture assistée</p>
+    </div>
+    <textarea v-model="text" cols="70"> </textarea>
+  </div>
   <br>
+  <div></div>
   <button @click="start_stop_recogniser">{{button_text}}</button>
   <!-- <br>
   {{ text_recognized }}<br>

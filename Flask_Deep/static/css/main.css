@@ -51,7 +51,7 @@ ul {
 }
   
 .site-header .navbar-nav .nav-link:hover {
-  color: #D8385A;
+  color: white;
 }
   
 .site-header .navbar-nav .nav-link.active {
@@ -83,12 +83,15 @@ ul {
 .row {
   justify-content: center;
   min-height: 500px;
-  padding-top: 20px;
+  padding-top: 10px;
+  margin-top: 30px;
   padding-bottom: 20px;
 }
 
 .container {
   background-color: #ccccff;
+  margin-top: -10px;
+  border-radius: 60px;
 }
 
 table td a:hover {
@@ -123,8 +126,6 @@ img:hover {
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
-
-
-
-
-
+.navbar .container, .navbar .container-fluid, .navbar .container-lg, .navbar .container-md, .navbar .container-sm, .navbar .container-xl {
+  background-color: salmon;
+}
