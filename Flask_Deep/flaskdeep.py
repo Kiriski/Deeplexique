@@ -2,10 +2,11 @@
 import pandas as pd
 import numpy as np
 import json
+from TextToSpeech import TextToSpeech
 from sklearn.feature_extraction.text import CountVectorizer
 ## end import
 
-from flask import Flask, render_template, url_for, escape, request, jsonify
+from flask import Flask, render_template, url_for, escape, request, jsonify, Response
 app = Flask(__name__)
 
 @app.route('/')
@@ -33,16 +34,32 @@ def write_assist():
 def read_assist():
     return render_template('read_assist.html', title='Lecture Assistée')
 
+@app.route('/stt')
+def synth():
+    return render_template('synth.html', title='Synthétiseur')
+
+@app.route('/text-to-speech', methods=['POST'])
+def text_to_speech():
+    print("here")
+    data = request.get_json()
+    text_input = data['text']
+    tts = TextToSpeech(text_input)
+    tts.get_token()
+    audio_response = tts.save_audio()
+    return audio_response
+
+    
+
 
 ## API vocabulaire
 
 #Stops words
-with open('./data/stopwords-fr.json') as f:
+with open('./data/stopwords-fr.json', encoding="utf-8") as f:
     text_file = f.read()
     StopWord = json.loads(text_file)
 
 #synonymes dictionary
-with open("./data/dic_synonymes.json") as f:
+with open("./data/dic_synonymes.json", encoding="utf-8") as f:
     data = f.read()
     dic_synonymes = json.loads(data)
 

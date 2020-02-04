@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+  .assist{
+    font-size: 24px;
+  }
+
+  .done {
+    background-color: rgb(119, 255, 131);
+    /* text-decoration-line: underline; */
+  }
+
+  .highlight {
+    background-color: rgb(252, 252, 109);
+    font-weight: bold;
+    /* text-decoration-line: underline; */
+  }
+</style>
+{% raw %}
+<div id="app_vocabulaire">
+    <textarea class="form-control" id="text-to-translate" rows="5" cols=70></textarea>
+    <br>
+    <br>
+    <button @click="speechtt">Leture</button>
+        <!-- <button type="submit" class="btn btn-primary mb-2" id="text-to-speech">Prononcer</button> -->
+        <br>
+        <br>
+        <div id="audio-playback">
+          <audio id="audio" controls>
+            <source id="audio-source" type="audio/mpeg" />
+          </audio>
+        </div>
+    <!-- <form action="{{ url_for('submit') }}" method="post">
+        <textarea name="text" cols="70"></textarea>
+        <input type="submit">
+    </form> -->
+    <!--<textarea v-model="text" cols="70"> </textarea>
+  <input type="submit">
+  <br>
+  <button @click="start_stop_recogniser">{{button_text}}</button> -->
+  <!-- <br>
+  {{ text_recognized }}<br>
+  {{ text_assist }}<br>
+  {{ position }} -->
+  <br>
+  <br>
+</div>
+<script>
+    new Vue({
+        el: '#app_vocabulaire',
+        data: {
+            // text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
+            // vocabulaires: {},
+            // erreur: "",
+            // mot_synonyme: []
+        },
+        computed: {
+            mots() {
+                return this.text.split(/ /);
+            },
+        },
+        methods: {
+          speechtt() {
+            var ttsInput = document.getElementById("text-to-translate").value;
+            // var ttsVoice = document.getElementById("select-voice").value;
+            // var ttsRequest = { 'text': ttsInput, 'voice': ttsVoice }
+            var ttsRequest = { 'text': ttsInput}
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/text-to-speech', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.responseType = "blob";
+            xhr.onload = function(evt){
+              if (xhr.status === 200) {
+                audioBlob = new Blob([xhr.response], {type: "audio/mpeg"});
+                audioURL = URL.createObjectURL(audioBlob);
+                if (audioURL.length > 5){
+                  var audio = document.getElementById('audio');
+                  var source = document.getElementById('audio-source');
+                  source.src = audioURL;
+                  audio.load();
+                  audio.play();
+                }else{
+                  console.log("An error occurred getting and playing the audio.")
+                }
+              }
+            }
+            xhr.send(JSON.stringify(ttsRequest));
+          }
+        }
+    })
+</script>
+<!-- </authorizationfunction> -->
+<!-- <quickstartcode> -->
+<!-- Speech SDK USAGE -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type = "text/javascript" src ="static/scripts/main.js"></script>
+<!-- </quickstartcode> -->
+{% endraw %}
+{% endblock content %}
