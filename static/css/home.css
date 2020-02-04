@@ -1,0 +1,34 @@
+#robot {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#robot p{
+	background-color: #76E70D;
+}
+
+#baobab{
+  width: 200px;
+	height: 200px;
+	background-color: grey;
+}
+
+#robot img {
+  /*background-color: blue;*/
+  width: 200px;
+	height: 200px;
+	/*background-color: grey;*/
+}
+
+.box1 {
+	margin: 50px 250px;
+	font-size: 20px;
+	text-align: center;
+}
+
+.box1 img {
+	width: 200px;
+	height: 200px;
+	background-color: grey;
+}

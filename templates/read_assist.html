@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{{ url_for('static', filename='js/tts.js') }}"></script>
+<style>
+  button {
+    background-color: #5CF992;
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-image: linear-gradient(to top left,
+        rgba(0, 0, 0, .2),
+        rgba(0, 0, 0, .2) 30%,
+        rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+      inset -2px -2px 3px rgba(0, 0, 0, .6);
+  }
+
+  button:hover {
+    background-color: green;
+  }
+
+  .assist {
+    font-size: 24px;
+  }
+
+  .done {
+    background-color: rgb(119, 255, 131);
+    /* text-decoration-line: underline; */
+  }
+
+  .highlight {
+    background-color: rgb(252, 252, 109);
+    font-weight: bold;
+    /* text-decoration-line: underline; */
+  }
+
+  #test {
+    display: flex;
+  }
+
+  p {
+    margin-left: 16px;
+  }
+
+  #vocabulary {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  h3 {
+    margin-right: 20px;
+    padding-top: 50px;
+  }
+
+  #boutons {
+    display: block;
+    margin: auto;
+    text-align: center;
+    outline-style:none;
+  }
+
+  #bouton {
+    outline-style:none;
+  }
+
+</style>
+{% raw %}
+
+<div id="vocabulary">
+  <img src="static/img/reading.png" style="width: 100px; margin-right: 20px">
+   <h3 style="text-align: center; padding-bottom: 20px">Lecture assistée</h3>
+</div>
+
+<div id="app_vocabulaire">
+  <div id="test">
+    <!--<div id="test2">
+      <img src="static/img/reading.png" style="width: 100px; margin-right: 20px">
+      <p>Lecture assistée</p>
+    </div> -->
+    <textarea v-model="text" cols="70" rows="5"> </textarea>
+  </div>
+  <br>
+  <div></div>
+  <div id="boutons">
+    <button @click="start_stop_recogniser" id="bouton">{{button_text}}</button>
+  </div>
+  <!-- <br>
+  {{ text_recognized }}<br>
+  {{ text_assist }}<br>
+  {{ position }} -->
+  <br>
+  <br>
+  <div class="assist">
+    <span v-for="(mot, index) in text_assist_display" @click="tts(mot)"
+      :class='{  highlight: index == position, done : index < position }'>
+      {{mot}}
+    </span>
+  </div>
+  </br>
+  <h1 v-if="succes">Bravo !!!</h1>
+
+</div>
+{% endraw %}
+
+<script>
+    //https://francecentral.api.cognitive.microsoft.com/sts/v1.0/issueToken
+</script>
+<!-- </authorizationfunction> -->
+
+<!-- <quickstartcode> -->
+<!-- Speech SDK USAGE -->
+<script>
+  // status fields and start button in UI
+
+  let speechConfig = SpeechSDK.SpeechConfig.fromSubscription("0cf90ceec03c44a6942e8ae5066457ee", "francecentral");
+  speechConfig.speechRecognitionLanguage = "fr-FR";
+  let audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+
+  let recognizer;
+
+  function replaceDiacritics(s) {
+    var s;
+
+    var diacritics = [
+      /[\300-\306]/g, /[\340-\346]/g,  // A, a
+      /[\310-\313]/g, /[\350-\353]/g,  // E, e
+      /[\314-\317]/g, /[\354-\357]/g,  // I, i
+      /[\322-\330]/g, /[\362-\370]/g,  // O, o
+      /[\331-\334]/g, /[\371-\374]/g,  // U, u
+      /[\321]/g, /[\361]/g, // N, n
+      /[\307]/g, /[\347]/g, // C, c
+    ];
+
+    var chars = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
+
+    for (var i = 0; i < diacritics.length; i++) {
+      s = s.replace(diacritics[i], chars[i]);
+    }
+
+    return s;
+  }
+
+  new Vue({
+    el: '#app_vocabulaire',
+    data: {
+      text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
+      text_assist: [],
+      text_assist_display: [],
+      text_recognized: [],
+      position: -1,
+      succes: false,
+      active: false,
+      button_text: "Commencer la lecture",
+      pause: false
+    },
+    mounted: function () {
+      document.body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 32 && !this.pause) {
+          const mot = this.text_assist_display[this.position];
+          this.tts(mot);
+        }
+      });
+    },
+    methods: {
+      async tts(phrase) {
+        this.pause = true;
+        this.button_text = "pause";
+        await text_to_speech(phrase);
+        setTimeout(() => {
+          this.pause = false;
+          this.button_text = "stop"
+        }, 1500);
+      },
+      start_stop_recogniser(event) {
+        event.target.blur();
+        if (!this.active) {
+          this.start_recogniser();
+        } else {
+          this.stop_recogniser();
+        }
+      },
+      start_recogniser() {
+        this.button_text = "stop";
+        this.position = 0;
+        this.succes = false;
+        this.text_assist_display = this.text.split(" ");
+        console.log(this.text_assist_display);
+        this.text_assist = replaceDiacritics(this.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
+        console.log(this.text_assist);
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        recognizer.recognized = (s, e) => {
+          if (this.pause) return;
+          this.text_recognized = replaceDiacritics(e.result.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
+
+          for (let i = 0; i < this.text_recognized.length; i++) {
+            const txt_expected = this.text_assist[this.position];
+            const txt_expected_without_last_letter = txt_expected.substr(0, txt_expected.length - 1);
+            const txt_recognized = this.text_recognized[i];
+            const txt_recognized_limited = txt_recognized.substr(0, txt_expected.length - 1);
+            console.log(`${txt_expected} == ${txt_recognized} ? // ${txt_expected_without_last_letter} == ${txt_recognized_limited} ?`);
+
+            if (txt_expected === txt_recognized || txt_expected_without_last_letter === txt_recognized_limited) {
+              this.position++;
+              this.succes = this.position == this.text_assist.length;
+              if (this.succes) {
+                this.stop_recogniser();
+              }
+            } else {
+              break;
+            }
+          }
+        };
+        recognizer.startContinuousRecognitionAsync()
+      },
+      stop_recogniser() {
+        const stop_function = () => {
+          recognizer.close();
+        }
+        recognizer.stopContinuousRecognitionAsync(stop_function, stop_function);
+        this.active = false;
+        this.button_text = "Commencer la lecture";
+      }
+    }
+  })
+</script>
+<!-- </quickstartcode> -->
+{% endblock content %}

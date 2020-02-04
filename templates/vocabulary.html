@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vocabulary.css') }}">
+{% raw %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style type="text/css">
+        #vocabulary{
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        h3{
+            margin-right: 20px;
+            padding-top: 50px;
+        }
+
+        #boutons {
+            display: block;
+            margin: auto;
+            text-align: center;
+            margin-top: 30px;
+            outline-style:none;
+        }
+    </style>
+
+    <div id="vocabulary">
+        <img src="static/img/vocabulary.png" style="width: 100px; margin-right: 20px">
+        <h3 style="text-align: center; padding-bottom: 20px">Vocabulaire</h3>
+    </div>
+    <div id="app_vocabulaire">
+        <textarea v-model="text" cols="70" rows="5">
+
+        </textarea>
+        <button @click="cherche_vocabulaire" id="boutons">Chercher vocabulaire</button>
+        {{erreur}}
+
+    </br></br>
+        <div class="result">
+            <span v-for="mot_plus_syno in mot_synonyme" :class="{ highlight: mot_plus_syno[1] != null }"
+                :title="mot_plus_syno[1]">
+                {{mot_plus_syno[0]}}
+            </span>
+        </div>
+    </br>
+
+        <ul class="vocabulaires_list">
+            <li v-for="mot in vocabulaires_list">
+                <div class="mot"> {{mot[0]}}</div>
+                <span class="synonymes"> {{mot[1]}}</span>
+            </li>
+        </ul>
+    </div>
+    
+    {% endraw %}
+
+<script>
+    new Vue({
+        el: '#app_vocabulaire',
+        data: {
+            text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
+            vocabulaires: {},
+            erreur: "",
+            mot_synonyme: []
+        },
+        computed: {
+            mots() {
+                return this.text.split(/ /);
+            },
+        },
+        methods: {
+            cherche_vocabulaire() {
+                var http = new XMLHttpRequest()
+                http.open("POST", "/api/syno");
+                http.setRequestHeader("content-type", "application/json");
+                http.onload = () => {
+                    const vocabulaires_object = JSON.parse(http.responseText);
+                    this.vocabulaires_list = Object.entries(vocabulaires_object);
+
+                    this.mot_synonyme = this.mots.map(m => [m, vocabulaires_object[m.replace(',', '').replace("d'", '')]])
+                    
+                    this.erreur = this.vocabulaires_list.length == 0 ? "Texte vide ou texte sans mot détecté" : "";
+                }
+                http.send(JSON.stringify(this.text));
+            }
+        }
+    })
+
+    console.log("test")
+</script>
+    
+{% endblock content %}

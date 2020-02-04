@@ -3,7 +3,7 @@
 
 # Deep lexique
 
-Démo : https://deeplexique.azurewebsites.net
+Démo : <a href="https://deeplexique.azurewebsites.net">link text</a>
 
 Ce projet est pour venir en aide aux enfants et jeunes adolescents ayant un trouble de l'apprentissage constaté (Dyslexie).
 
