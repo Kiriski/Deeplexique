@@ -3,9 +3,9 @@
 
 <script src="{{ url_for('static', filename='js/microsoft.cognitiveservices.speech.sdk.bundle.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{{ url_for('static', filename='js/tts.js') }}"></script>
 <style>
-
-  button{
+  button {
     background-color: #5CF992;
     border: 0;
     line-height: 2.5;
@@ -17,18 +17,18 @@
     text-shadow: 1px 1px 1px #000;
     border-radius: 1000px;
     background-image: linear-gradient(to top left,
-                                      rgba(0, 0, 0, .2),
-                                      rgba(0, 0, 0, .2) 30%,
-                                      rgba(0, 0, 0, 0));
+        rgba(0, 0, 0, .2),
+        rgba(0, 0, 0, .2) 30%,
+        rgba(0, 0, 0, 0));
     box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
-                inset -2px -2px 3px rgba(0, 0, 0, .6);
+      inset -2px -2px 3px rgba(0, 0, 0, .6);
   }
 
   button:hover {
     background-color: green;
   }
 
-  .assist{
+  .assist {
     font-size: 24px;
   }
 
@@ -43,7 +43,7 @@
     /* text-decoration-line: underline; */
   }
 
-  #test{
+  #test {
     display: flex;
   }
 
@@ -101,11 +101,12 @@
   <br>
   <br>
   <div class="assist">
-    <span v-for="(mot, index) in text_assist_display" :class='{  highlight: index == position, done : index < position }'>
+    <span v-for="(mot, index) in text_assist_display" @click="tts(mot)"
+      :class='{  highlight: index == position, done : index < position }'>
       {{mot}}
     </span>
   </div>
-</br>
+  </br>
   <h1 v-if="succes">Bravo !!!</h1>
 
 </div>
@@ -154,24 +155,42 @@
     data: {
       text: "C'était une de ces jolies et charmantes filles, nées, comme par une erreur du destin, dans une famille d'employés",
       text_assist: [],
-      text_assist_display :[],
+      text_assist_display: [],
       text_recognized: [],
-      position: 0,
-      succes:false,
+      position: -1,
+      succes: false,
       active: false,
-      button_text: "Commencer la lecture"
+      button_text: "Commencer la lecture",
+      pause: false
+    },
+    mounted: function () {
+      document.body.addEventListener("keydown", (event) => {
+        if (event.keyCode == 32 && !this.pause) {
+          const mot = this.text_assist_display[this.position];
+          this.tts(mot);
+        }
+      });
     },
     methods: {
-      start_stop_recogniser() {
+      async tts(phrase) {
+        this.pause = true;
+        this.button_text = "pause";
+        await text_to_speech(phrase);
+        setTimeout(() => {
+          this.pause = false;
+          this.button_text = "stop"
+        }, 1500);
+      },
+      start_stop_recogniser(event) {
+        event.target.blur();
         if (!this.active) {
           this.start_recogniser();
         } else {
           this.stop_recogniser();
         }
-        this.active = !this.active;
-        this.button_text = this.active ? "stop" : "Commencer la lecture";
       },
       start_recogniser() {
+        this.button_text = "stop";
         this.position = 0;
         this.succes = false;
         this.text_assist_display = this.text.split(" ");
@@ -180,7 +199,8 @@
         console.log(this.text_assist);
         recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
         recognizer.recognized = (s, e) => {
-          this.text_recognized =replaceDiacritics(e.result.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
+          if (this.pause) return;
+          this.text_recognized = replaceDiacritics(e.result.text.toLowerCase()).replace(/\./g, "").replace(/,/g, "").replace(/\?/g, "").split(" ");
 
           for (let i = 0; i < this.text_recognized.length; i++) {
             const txt_expected = this.text_assist[this.position];
@@ -191,9 +211,9 @@
 
             if (txt_expected === txt_recognized || txt_expected_without_last_letter === txt_recognized_limited) {
               this.position++;
-              this.succes=this.position==this.text_assist.length;
-              if(this.succes){
-                  this.start_stop_recogniser();
+              this.succes = this.position == this.text_assist.length;
+              if (this.succes) {
+                this.stop_recogniser();
               }
             } else {
               break;
@@ -207,6 +227,8 @@
           recognizer.close();
         }
         recognizer.stopContinuousRecognitionAsync(stop_function, stop_function);
+        this.active = false;
+        this.button_text = "Commencer la lecture";
       }
     }
   })
