@@ -1,0 +1,101 @@
+#phraseDiv  
+{  
+   font-family: OpenDyslexic;  
+   font-size: 48px;
+   display: inline-block;
+   width:700px;
+   height:600px;   
+}
+
+#tableau {
+    width:"100%";
+    margin:auto;
+    text-align: center;
+}
+
+#startRecognize {
+    text-align: left;
+}
+
+#clButton {
+    text-align: right;
+}
+
+#startRecognizeOnceAsyncButton {
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: black;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-color:   #5CF992;
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+#startRecognizeOnceAsyncButton:hover {
+    background-color: green;
+}
+
+#startRecognizeOnceAsyncButton:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);@
+}
+
+#clearButton {
+    border: 0;
+    line-height: 2.5;
+    margin: 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: ;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-color: #3393FF;
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+#stopButton{
+    border: 0;
+    line-height: 2.5;
+    margin: 20px;
+    font-size: 1.5rem;
+    font-family: OpenDyslexic;
+    text-align: center;
+    color: ;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 1000px;
+    background-color: #D64D0D;
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+#stopButton:hover{
+  background-color: red;
+}
+
+#clearButton:hover {
+    background-color: blue;
+}
+
+#clearButton:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
