@@ -190,6 +190,7 @@
         }
       },
       start_recogniser() {
+        this.active =true;
         this.button_text = "stop";
         this.position = 0;
         this.succes = false;
@@ -223,12 +224,13 @@
         recognizer.startContinuousRecognitionAsync()
       },
       stop_recogniser() {
+        this.active = false;
+        this.button_text = "Commencer la lecture";
         const stop_function = () => {
           recognizer.close();
         }
         recognizer.stopContinuousRecognitionAsync(stop_function, stop_function);
-        this.active = false;
-        this.button_text = "Commencer la lecture";
+        
       }
     }
   })

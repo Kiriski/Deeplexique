@@ -1,23 +1,23 @@
 @font-face {
   font-family: OpenDyslexic;
-  src: url('fonts/OpenDyslexic-Regular.otf');
+  src: url('/static/fonts/OpenDyslexic-Regular.otf');
 }
 
 @font-face {
 font-family: OpenDyslexic;
-src: url('fonts/OpenDyslexic-Bold.otf');
+src: url('/static/fonts/OpenDyslexic-Bold.otf');
 font-weight: bold;
 }
 
 @font-face {
   font-family: OpenDyslexic;
-  src: url('fonts/OpenDyslexic-Italic.otf');
+  src: url('/static/fonts/OpenDyslexic-Italic.otf');
   font-weight: italic;
   }
 
 @font-face {
   font-family: OpenDyslexic;
-  src: url('fonts/OpenDyslexic-Italic.otf');
+  src: url('/static/fonts/OpenDyslexic-Italic.otf');
   font-weight: italic bold;
   }
 
