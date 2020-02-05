@@ -9,22 +9,22 @@ Ce projet est pour venir en aide aux enfants et jeunes adolescents ayant un trou
 
 C’est un trouble de l’apprentissage fréquemment retrouvé chez les enfants. Il se présente comme un dysfonctionnement cérébral ou psychique et ses répercussions sont souvent retrouvées dans le langage et l’écriture (difficulté à acquérir la lecture, l’écriture et orthographe).
 
-La dyslexie affecte le 10% de la population scolarisée en France et 8% de la population mondiale !
+La dyslexie affecte 10% de la population scolarisée en France et 8% de la population mondiale !
 
 Deep lexique est aussi de grande utilité pour :
-* les personnes ayant souffert d'une Aphasie
+* les personnes ayant souffert d'une aphasie
 * les personnes malentendantes 
 * les personnes autistes
 * les adultes illétrés
 * mais aussi pour l'apprentissage des langues étrangères.
 
-### Quelles fonctionnalités vous trouverez ?
+### Quelles fonctionnalités trouverez-vous ?
 
-* **Synthétiseur** : Lis le texte à la place de l'utilisateur.
+* **Synthétiseur** : Lit le texte à la place de l'utilisateur.
 * **Lecture assistée** : Aide à suivre la lecture avec un coloriage, comme au karaoké !
-* **Ecriture assistée** : Ecrit tout ce que tout ce que l'utilisateur lui dis...
-* **Vocabulaire - Synonymes** : Propose un vocabulaire et des synonymes à partir d"un texte.
-* **Simplification de texte** : Fait une reformulation du texte pour faciliter la compréhension.
+* **Ecriture assistée** : Ecrit tout ce que tout ce que l'utilisateur lui dit...
+* **Vocabulaire - Synonymes** : Propose un vocabulaire et des synonymes à partir d'un texte.
+* **Simplification de texte** : Fait une reformulation du texte pour en faciliter la compréhension.
 
 
 ### Comment lancer le serveur ?
