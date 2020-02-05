@@ -3,8 +3,6 @@
 
 # Deep lexique
 
-Démo : <a href="https://deeplexique.azurewebsites.net">https://deeplexique.azurewebsites.net</a>
-
 Ce projet est pour venir en aide aux enfants et jeunes adolescents ayant un trouble de l'apprentissage constaté (Dyslexie).
 
 ### La dyslexie, c’est quoi?
@@ -34,6 +32,7 @@ Deep lexique est aussi de grande utilité pour :
 
 ```
 
-python3 ./server/server.py
+cd ./server
+python3 server.py
 
 ```
