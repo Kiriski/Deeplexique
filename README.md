@@ -26,6 +26,13 @@ Deep lexique est aussi de grande utilité pour :
 * **Vocabulaire - Synonymes** : Propose un vocabulaire et des synonymes à partir d'un texte.
 * **Simplification de texte** : Fait une reformulation du texte pour en faciliter la compréhension.
 
+### Dépendences
+* flask
+* numpy
+* pandas
+* scikit-learn
+* azure-cognitiveservices-speech
+
 
 ### Comment lancer le serveur ?
 
